@@ -1,0 +1,86 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f3ea;
+  --surface: #fffdf8;
+  --text: #2b2620;
+  --muted: #6b6257;
+  --line: #ddd4c5;
+  --accent: #8a4b2d;
+  --on-accent: #fffdf8;
+  --good: #2f6b45;
+  --bad: #a2362c;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1d1a16;
+    --surface: #2a2620;
+    --text: #f1eadf;
+    --muted: #b4a998;
+    --line: #453e34;
+    --accent: #d99a76;
+    --on-accent: #1d1a16;
+    --good: #7cc495;
+    --bad: #ef9087;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+main { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 16px; margin: 0 0 12px; }
+section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+.note, .status { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+.status:empty { display: none; }
+.letter { display: flex; gap: 14px; align-items: center; }
+.letter[hidden] { display: none; }
+.letter img { border-radius: 50%; flex: none; }
+.letter p { margin: 0; overflow-wrap: anywhere; }
+.letter-name { font-weight: 600; }
+dl { margin: 0 0 14px; }
+dt { color: var(--muted); font-size: 13px; margin-top: 10px; }
+dt:first-child { margin-top: 0; }
+dd { margin: 0; overflow-wrap: anywhere; font-size: 15px; }
+dd.good { color: var(--good); font-weight: 600; }
+dd.bad { color: var(--bad); font-weight: 600; }
+label { display: block; font-size: 14px; margin-bottom: 6px; }
+input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+.buttons { display: grid; gap: 8px; margin-top: 12px; }
+button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+button.primary {
+  width: 100%;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-align: center;
+}
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

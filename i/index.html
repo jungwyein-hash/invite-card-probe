@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="format-detection" content="telephone=no, email=no, address=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<title>편지 열기</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="편지 열기">
+<meta property="og:description" content="소반 초대장 · 실측용 시험 페이지">
+<meta property="og:image" content="https://jungwyein-hash.github.io/invite-card-probe/i/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="probe.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>소반 초대장 실측</h1>
+    <p class="note">실제 초대장이 아니에요. 이름과 사진은 모두 시험 값이에요.</p>
+  </header>
+
+  <section aria-labelledby="h-letter">
+    <h2 id="h-letter">편지</h2>
+    <div id="letter" class="letter" hidden>
+      <img id="letter-photo" alt="시험용 그림" width="96" height="96">
+      <div>
+        <p id="letter-name" class="letter-name"></p>
+        <p id="letter-text"></p>
+      </div>
+    </div>
+    <p id="letter-status" class="status">준비 중이에요.</p>
+  </section>
+
+  <section aria-labelledby="h-result">
+    <h2 id="h-result">이 화면이 받은 것</h2>
+    <dl id="rows"></dl>
+    <button id="copy-report" type="button" class="primary">결과 복사</button>
+    <p id="copy-status" class="status" role="status"></p>
+  </section>
+
+  <section aria-labelledby="h-send">
+    <h2 id="h-send">시험 링크 보내기</h2>
+    <label for="message">함께 보낼 문구</label>
+    <input id="message" type="text" value="제 지인으로 초대합니다. — 시험">
+    <p class="note">버튼마다 새 주소를 만들어요. 앱이 주소별로 카드를 저장해 두기 때문이에요.</p>
+    <div class="buttons">
+      <button type="button" data-variant="a">가. 문구와 주소를 한 문자열로</button>
+      <button type="button" data-variant="b">나. 문구와 주소를 따로</button>
+      <button type="button" data-variant="c">다. 주소만</button>
+      <button type="button" data-variant="d">라. 열쇠를 # 대신 주소 안에</button>
+    </div>
+    <div class="buttons">
+      <button type="button" data-copy="a">가의 내용을 복사</button>
+    </div>
+    <p id="share-status" class="status" role="status"></p>
+  </section>
+</main>
+<script src="probe.js"></script>
+</body>
+</html>
