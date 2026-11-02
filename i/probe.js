@@ -23,6 +23,7 @@ const report = {
   들어온_곳: document.referrer || '(없음)',
   보안_환경: window.isSecureContext === true,
   WebCrypto: Boolean(window.crypto && crypto.subtle),
+  Ed25519_서명_확인: '확인 중',
   첫_화면_상태: document.visibilityState,
   공유창_지원: typeof navigator.share === 'function',
   보이기_시작_ms: null,
@@ -77,6 +78,7 @@ function renderRows() {
     ['봉인 풀기', report.봉인_결과, report.봉인_결과 === '성공' ? 'good' : report.봉인_결과 === '기다리는 중' ? '' : 'bad'],
     ['화면에 뜨기까지', report.화면_표시_ms === null ? '-' : `페이지를 연 뒤 ${report.화면_표시_ms}ms · 화면이 보인 뒤 ${report.보인_뒤_표시까지_ms}ms`],
     ['WebCrypto', report.WebCrypto ? '됨' : '안 됨', report.WebCrypto ? 'good' : 'bad'],
+    ['Ed25519 서명 확인', report.Ed25519_서명_확인, report.Ed25519_서명_확인 === '됨' ? 'good' : report.Ed25519_서명_확인 === '확인 중' ? '' : 'bad'],
     ['브라우저 (추정)', report.앱_브라우저_추정],
     ['공유 창', report.공유창_지원 ? '됨' : '안 됨 (복사를 쓰세요)'],
     ['받은 주소', report.주소],
@@ -225,6 +227,23 @@ function wireControls() {
   });
 }
 
+// 초대장 서명을 브라우저에서 확인할 수 있는지 본다. RFC 8032 §7.1 TEST 1 (빈 메시지).
+async function checkEd25519() {
+  const hex = (text) => Uint8Array.from(text.match(/../g), (byte) => parseInt(byte, 16));
+  try {
+    const publicKey = await crypto.subtle.importKey(
+      'raw', hex('d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a'),
+      { name: 'Ed25519' }, false, ['verify']);
+    const valid = await crypto.subtle.verify({ name: 'Ed25519' }, publicKey, hex(
+      'e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b'),
+    new Uint8Array(0));
+    report.Ed25519_서명_확인 = valid ? '됨' : '틀린 결과';
+  } catch (error) {
+    report.Ed25519_서명_확인 = `안 됨 (${error.name})`;
+  }
+  renderRows();
+}
+
 function whenVisible(run) {
   if (document.visibilityState === 'visible') {
     run();
@@ -241,4 +260,6 @@ function whenVisible(run) {
 beacon('script');
 wireControls();
 renderRows();
+if (report.WebCrypto) checkEd25519();
+else report.Ed25519_서명_확인 = 'WebCrypto 없음';
 whenVisible(openLetter);
